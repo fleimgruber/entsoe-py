@@ -158,3 +158,19 @@ def test_query_procured_balancing_capacity(client, country_code, start, end):
         country_code, start=start, end=end, process_type=process_type, type_marketagreement_type=None
     )
     assert not result.empty
+
+
+def test_issue_388(client, country_code, start, end):
+    country_code="BE"
+    start = pd.Timestamp("2024-01-01", tz="Europe/Brussels")
+    end = pd.Timestamp("2025-01-02", tz="Europe/Brussels")
+    resolution = "60min"
+    result = client.query_day_ahead_prices(
+        country_code, start=start, end=end, resolution=resolution
+    ).to_frame()
+    result.index.name = "timestamp"
+    missingp = pd.Timestamp("2024-12-31T00:00:00+01:00", tz="Europe/Brussels")
+    begin = pd.Timestamp("2024-12-30T22:00:00+01:00", tz="Europe/Brussels")
+    end = pd.Timestamp("2024-12-31T02:00:00+01:00", tz="Europe/Brussels")
+    result.index = result.index.map(lambda x: x.isoformat())
+    assert missingp in result.index
