@@ -8,7 +8,7 @@ import pytest
 
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
+API_KEY = str(os.getenv("API_KEY"))
 
 
 @pytest.fixture
