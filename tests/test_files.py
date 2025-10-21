@@ -2,7 +2,6 @@ from entsoe.files import EntsoeFileClient
 from dotenv import load_dotenv
 import pytest
 
-
 load_dotenv()
 
 @pytest.fixture

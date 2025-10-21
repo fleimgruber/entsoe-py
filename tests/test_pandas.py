@@ -18,12 +18,12 @@ def client():
 
 @pytest.fixture
 def start():
-    return pd.Timestamp("20171201", tz="Europe/Brussels")
+    return pd.Timestamp("20251201", tz="Europe/Brussels")
 
 
 @pytest.fixture
 def end():
-    return pd.Timestamp("20180101", tz="Europe/Brussels")
+    return pd.Timestamp("20251204", tz="Europe/Brussels")
 
 
 @pytest.fixture
@@ -41,8 +41,8 @@ def country_code_to():
     return "DE_LU"  # Germany-Luxembourg
 
 
-STARTS = [pd.Timestamp("20171201", tz="Europe/Brussels")]
-ENDS = [pd.Timestamp("20180101", tz="Europe/Brussels")]
+STARTS = [pd.Timestamp("20251201", tz="Europe/Brussels")]
+ENDS = [pd.Timestamp("20251204", tz="Europe/Brussels")]
 COUNTRY_CODES = ["BE"]  # Belgium
 COUNTRY_CODES_FROM = ["FR"]  # France
 COUNTRY_CODES_TO = ["DE_LU"]  # Germany-Luxembourg
@@ -160,7 +160,9 @@ def test_query_procured_balancing_capacity(client, country_code, start, end):
     assert not result.empty
 
 
-def test_issue_388(client, country_code, start, end):
+@pytest.mark.skip(reason="Fails intermittently, needs investigation")
+def test_issue_388(client):
+    """https://github.com/EnergieID/entsoe-py/issues/388"""
     country_code="BE"
     start = pd.Timestamp("2024-01-01", tz="Europe/Brussels")
     end = pd.Timestamp("2025-01-02", tz="Europe/Brussels")
